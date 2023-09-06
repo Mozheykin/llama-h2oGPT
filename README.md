@@ -36,7 +36,7 @@ The project is a simple WebSocket client written in Python programming language.
 
 2. Create an instance of RequestLlama and send message:
 
-   ````python
+   ```python
    llh = RequestLlama()
    response = llh.get('Hello')
    ```
