@@ -1,13 +1,16 @@
-temperature = 0.1
-max_length = 4046
-max_time = 120
-top_p = 0.85
-top_k = 70
-min_length = 0
-repetition_penalty = 1.07
-stream = True
+from typing import NamedTuple
 
-def request_form(index_message:int, message:str, answer:str=''):
+class SettingsModel(NamedTuple):
+    temperature:float = 0.2
+    max_length:int = 4046
+    max_time:int = 120
+    top_p:float = 0.85
+    top_k:int = 70
+    min_length:int = 0
+    repetition_penalty:float = 1.07
+    stream:bool = True
+
+def request_form(index_message:int, message:str, settings:SettingsModel, answer:str=''):
     predirected_message = {
                         'PreInput': 'None',
                         'PreInstruct': '<s>[INST]',
@@ -25,18 +28,18 @@ def request_form(index_message:int, message:str, answer:str=''):
     data_list = [
                     '',
                     '',
-                    stream,
+                    settings.stream,
                     'llama2',
                     predirected_message,
-                    temperature,
-                    top_p,
-                    top_k,
+                    settings.temperature,
+                    settings.top_p,
+                    settings.top_k,
                     1,
-                    max_length,
-                    min_length,
+                    settings.max_length,
+                    settings.min_length,
                     False,
-                    max_time,
-                    repetition_penalty,
+                    settings.max_time,
+                    settings.repetition_penalty,
                     1,
                     False,
                     True,

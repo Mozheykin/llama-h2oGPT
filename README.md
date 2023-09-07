@@ -41,6 +41,13 @@ The project is a simple WebSocket client written in Python programming language.
    response = llh.get('Hello')
    ```
 
+## Need to be eliminated:
+
++ To put the main model quality settings into RequestLlama class
+- Add possibility to load history
+- Getting fn_index in automatic mode. So far it does not get it and there is a need to get it from websocket request of the site https://llama.h2o.ai/ ![](https://i.imgur.com/yAJIivj.png)
++ Add progressbar
+  
 ## License
 
 [MIT License](https://github.com/Mozheykin/llama-h2oGPT/LICENSE)
