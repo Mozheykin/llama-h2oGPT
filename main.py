@@ -13,7 +13,8 @@ FULL_ANALIZE = False
 class WebSocket(websocket.WebSocketApp):
     result:Optional[str] = None
     output:Optional[dict] = None
-    answer:str = ''
+    answer:Optional[str] = ''
+    generating:Optional[str] = '' 
     index = 0
 
     def __init__(self, url:str, request:str, session_hash:str, message:str, settings:SettingsModel, index_def:int=94):
@@ -60,26 +61,33 @@ class WebSocket(websocket.WebSocketApp):
                 # print('[INFO] Process starts')
             case 'estimation':
                 pass
-            case 'process_completed':
-                output = result.get('output')
-                if output is not None:
-                    data = output.get('data')
-                    genarating = output.get('is_generating')
-                    if data is not None and genarating is True:
-                        if len(data) > 0:
-                            dialog = data[0]
-                            if type(dialog) is list and len(dialog) > 0:
-                                answer = dialog[0][1]
-                                if answer is not None:
-                                    WebSocket.answer = answer
-                if STATE_ANALIZE or FULL_ANALIZE:
-                    print(f"[INFO] Process completed\n {output}")
             case 'process_generating':
-                pass
+                answer = self._answer(result)
+                if answer is not None:
+                    WebSocket.generating = answer
                 if STATE_ANALIZE or FULL_ANALIZE:
                     print(f"[GENERATING] {result}")
+            case 'process_completed':
+                answer = self._answer(result)
+                if answer is not None:
+                    WebSocket.answer = answer 
+                if STATE_ANALIZE or FULL_ANALIZE:
+                    print(f"[INFO] Process completed\n {result}")
             case _:
                 print('[ERR] Error data msg')
+    
+    def _answer(self, result:dict) -> str|None:
+        output = result.get('output')
+        if output is not None:
+            data = output.get('data')
+            genarating = output.get('is_generating')
+            if data is not None and genarating is True:
+                if len(data) > 0:
+                    dialog = data[0]
+                    if type(dialog) is list and len(dialog) > 0:
+                        answer = dialog[0][1]
+                        if answer is not None:
+                            return answer
 
 
 
@@ -97,6 +105,6 @@ if __name__ == "__main__":
         for _ in range(9):
             WebSocket("wss://llama.h2o.ai/queue/join", 'wait', session_hash, message, settings, INDEX)
             bar.next()
-    
+            # print(WebSocket.generating)
     print("Answer: ", WebSocket.answer)
 
