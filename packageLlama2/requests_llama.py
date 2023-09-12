@@ -63,6 +63,7 @@ def request_form(index_message:int, message:str, settings:SettingsModel, answer:
                     ["PyMuPDF"],
                     ["Unstructured"],
                     ".[]",
+                    [],
                     ]
     match index_message:
         case 1:

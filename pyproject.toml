@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "llama-h2ogpt"
+version = "0.0.4"
+description = ""
+authors = ["Mozheykin <mozheykin.igor@gmail.com>"]
+readme = "README.md"
+packages = [{include="llama-h2oGPT"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+websocket-client = "^1.6.3"
+progress = "^1.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+somecommand = "llama-h2oGPT.main:main"

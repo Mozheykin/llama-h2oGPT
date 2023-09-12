@@ -1,8 +1,8 @@
 from typing import Optional
-from main import WebSocket
+from .main import WebSocket
 import random
 import string
-from requests_llama import SettingsModel
+from .requests_llama import SettingsModel
 from progress.bar import ChargingBar
 
 class RequestLlama:
